@@ -41,3 +41,9 @@ Route::post('/products', function () {
 
     return response()->json('', 201);
 })->name('product.store');
+
+Route::put('/products/{product}', function (Product $product) {
+    $product->title = request()->get('title');
+    $product->save();
+
+})->name('product.update');
