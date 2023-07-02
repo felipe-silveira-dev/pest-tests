@@ -60,3 +60,7 @@ Route::delete('/products/{product}', function (Product $product) {
 Route::delete('/products/{product}/soft-delete', function (Product $product) {
     $product->delete();
 })->name('product.soft-delete');
+
+Route::post('/sending-email/{user}', function (\App\Models\User $user) {
+    Mail::to($user)->send(new \App\Mail\WelcomeEmail());
+})->name('sending-email');
