@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use App\Models\User;
+use function PHPUnit\Framework\assertTrue;
 
 test('model relationship :: product owner should be an user', function () {
     $user = User::factory()->create();
@@ -11,4 +12,17 @@ test('model relationship :: product owner should be an user', function () {
 
     expect($owner)
         ->toBeInstanceOf(User::class);
+});
+
+test('model get mutator :: product title should always be str()->title()', function () {
+    $product = Product::factory()->create(['title' => 'titulo']);
+
+    expect($product)
+        ->title->toBe('Titulo');
+});
+
+test('model set mutator :: product code should be encrypted', function () {
+    $product = Product::factory()->create(['code' => 'jeremias']);
+
+    assertTrue(Hash::isHashed($product->code));
 });

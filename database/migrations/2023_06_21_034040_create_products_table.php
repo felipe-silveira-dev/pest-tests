@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignIdFor(\App\Models\User::class, 'owner_id');
+            $table->string('code')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
