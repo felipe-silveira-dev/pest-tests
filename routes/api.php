@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/products', function () {
     $products = \App\Models\Product::all();
-    $products->map(fn($p) => ['title' => $p->title]);
+    $products->map(fn ($p) => ['title' => $p->title]);
 
     return array_merge([
         ['title' => 'Produto A'],

@@ -23,7 +23,7 @@ test('an email was sent to user:x', function () {
 
     Mail::assertSent(
         WelcomeEmail::class,
-        fn(WelcomeEmail $email) => $email->assertHasTo($user->email)
+        fn (WelcomeEmail $email) => $email->assertHasTo($user->email)
     );
 
 });
@@ -34,7 +34,7 @@ test('email subject should contain the user name', function () {
     $mail = new WelcomeEmail($user);
 
     expect($mail)
-        ->assertHasSubject('Thank you ' . $user->name);
+        ->assertHasSubject('Thank you '.$user->name);
 });
 
 test('email content should contain user email with a text', function () {
@@ -43,5 +43,5 @@ test('email content should contain user email with a text', function () {
     $mail = new WelcomeEmail($user);
 
     expect($mail)
-        ->assertSeeInHtml('Confirmando que o seu email eh: ' . $user->email);
+        ->assertSeeInHtml('Confirmando que o seu email eh: '.$user->email);
 });

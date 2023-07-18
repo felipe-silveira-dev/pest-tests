@@ -31,17 +31,16 @@ Route::get('/403', function () {
     return ['oi'];
 });
 
-
 Route::get('/products', function () {
     return view('products', [
-        'products' => Product::all()
+        'products' => Product::all(),
     ]);
 });
 
 Route::post('/products', function () {
 
     request()->validate([
-        'title' => ['required', 'max:255']
+        'title' => ['required', 'max:255'],
     ]);
 
     Product::query()
@@ -64,10 +63,12 @@ Route::delete('/products/{product}/soft-delete', function (Product $product) {
     $product->delete();
 })->name('product.soft-delete');
 
+Route::post('/products/import', function () {
 
-Route::post('/products/import', function() {
-
-    ImportProduct::dispatch();
+    ImportProduct::dispatch(
+        request()->get('products'),
+        auth()->id()
+    );
 
 })->name('product.import');
 

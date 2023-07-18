@@ -16,11 +16,11 @@ class Product extends Model
 
     protected $fillable = [
         'title',
-        'code'
+        'code',
     ];
 
     protected $casts = [
-        'code' => 'hashed'
+        'code' => 'hashed',
     ];
 
     public function owner(): BelongsTo
@@ -30,7 +30,7 @@ class Product extends Model
 
     public function title(): Attribute
     {
-        return new Attribute(get: fn($value) => ucfirst($value));
+        return new Attribute(get: fn ($value) => ucfirst($value));
     }
 
     public function scopeReleased(Builder $builder): void

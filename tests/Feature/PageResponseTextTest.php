@@ -7,11 +7,11 @@ test('deve listar produtos')
     ->get('/products')
     ->assertOk()
     ->assertSeeTextInOrder([
-       'Produto A',
-       'Produto B'
+        'Produto A',
+        'Produto B',
     ]);
 
-test('deve listar produtos do banco de dados', function() {
+test('deve listar produtos do banco de dados', function () {
     $product1 = Product::factory()->create();
     $product2 = Product::factory()->create();
 
@@ -21,6 +21,6 @@ test('deve listar produtos do banco de dados', function() {
             'Produto A',
             'Produto B',
             $product1->title,
-            $product2->title
+            $product2->title,
         ]);
 });

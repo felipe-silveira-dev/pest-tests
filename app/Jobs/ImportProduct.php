@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,8 +16,10 @@ class ImportProduct implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        private readonly array $products,
+        private readonly int $userId
+    ) {
         //
     }
 
@@ -26,6 +28,16 @@ class ImportProduct implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        Product::query()
+            ->insert($this->data());
+    }
+
+    public function data(): array
+    {
+        return collect($this->products)
+            ->map(fn ($product) => [
+                'title' => $product,
+                'owner_id' => $this->userId,
+            ])->toArray();
     }
 }

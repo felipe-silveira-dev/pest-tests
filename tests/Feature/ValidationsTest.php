@@ -14,7 +14,7 @@ test('product :: title should be required', function () {
 test('product :: title should have a max of 255 characters', function () {
     postJson(route('product.store'), ['title' => str_repeat('*', 256)])
         ->assertInvalid([
-            'title' => __('validation.max.string', ['attribute' => 'title', 'max' => 255])
+            'title' => __('validation.max.string', ['attribute' => 'title', 'max' => 255]),
         ]);
 });
 

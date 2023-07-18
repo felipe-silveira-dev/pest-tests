@@ -19,7 +19,7 @@ class ProductFactory extends Factory
     {
         return [
             'title' => $this->faker->title,
-            'owner_id' => User::factory()
+            'owner_id' => User::factory(),
         ];
     }
 }

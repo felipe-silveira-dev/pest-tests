@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Product;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -39,7 +38,7 @@ it('should be able to update a product', function () {
 
     assertDatabaseHas('products', [
         'id' => $product->id,
-        'title' => 'Atualizando o titulo'
+        'title' => 'Atualizando o titulo',
     ]);
 
     expect($product)
@@ -58,7 +57,7 @@ it('should be able to delete a product', function () {
         ->assertOk();
 
     assertDatabaseMissing('products', [
-        'id' => $product->id
+        'id' => $product->id,
     ]);
 
     assertDatabaseCount('products', 0);
@@ -70,7 +69,7 @@ it('should be able to soft-delete a product', function () {
         ->assertOk();
 
     assertSoftDeleted('products', [
-        'id' => $product->id
+        'id' => $product->id,
     ]);
 
     assertDatabaseCount('products', 1);

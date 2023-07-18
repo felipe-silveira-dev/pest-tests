@@ -18,8 +18,7 @@ class WelcomeEmail extends Mailable
      */
     public function __construct(
         public User $user
-    )
-    {
+    ) {
         //
     }
 
@@ -29,7 +28,7 @@ class WelcomeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Thank you ' . $this->user->name,
+            subject: 'Thank you '.$this->user->name,
         );
     }
 
