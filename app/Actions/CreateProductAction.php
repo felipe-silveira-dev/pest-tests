@@ -3,6 +3,8 @@
 namespace App\Actions;
 
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\NewProductCreated;
 
 class CreateProductAction
 {
@@ -16,5 +18,8 @@ class CreateProductAction
                 $product,
                 ['owner_id' => $userId]
             ));
+
+        $user = User::find($userId);
+        $user->notify(new NewProductCreated());
     }
 }

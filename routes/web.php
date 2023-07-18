@@ -50,10 +50,6 @@ Route::post('/products', function () {
         auth()->id()
     );
 
-    auth()->user()->notify(
-        new NewProductCreated()
-    );
-
     return response()->json('', 201);
 })->name('product.store');
 
