@@ -24,3 +24,18 @@ it('should be able to create a product via command', function () {
         'owner_id' => 1
     ]);
 });
+
+it('should ask for user and a product title', function () {
+    $user = User::factory()->create();
+
+    $this->artisan(CreateProductCommand::class)
+        ->expectsChoice(
+            'Please, provide the user Id of the products owner',
+            $user->name,
+            User::all()->pluck('name')->toArray()
+        )
+        ->expectsQuestion('Please, provide a title for the product', 'product a')
+        ->expectsOutput('Product created!')
+        ->assertSuccessful();
+
+});

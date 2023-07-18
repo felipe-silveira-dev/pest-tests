@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Actions\CreateProductAction;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class CreateProductCommand extends Command
@@ -12,7 +13,7 @@ class CreateProductCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create-product-command {title} {user}';
+    protected $signature = 'app:create-product-command {title?} {user?}';
 
     /**
      * The console command description.
@@ -30,7 +31,22 @@ class CreateProductCommand extends Command
         $title = $this->argument('title');
         $user = $this->argument('user');
 
+        if (!$user) {
+            $userName = $this->choice(
+                'Please, provide the user Id of the products owner',
+                User::all()->pluck('name')->toArray()
+            );
+
+           $user = User::whereName($userName)->firstOrFail()->id;
+        }
+
+        if (!$title) {
+            $title = $this->ask('Please, provide a title for the product');
+        }
+
         $action = app(CreateProductAction::class);
         $action->handle(compact('title'), $user);
+
+        $this->info('Product created!');
     }
 }
