@@ -4,6 +4,7 @@ use App\Jobs\ImportProduct;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
 use App\Models\User;
+use App\Notifications\NewProductCreated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,13 +39,19 @@ Route::get('/products', function () {
 });
 
 Route::post('/products', function () {
-
     request()->validate([
         'title' => ['required', 'max:255'],
     ]);
 
     Product::query()
-        ->create(request()->only('title'));
+        ->create(array_merge(
+            request()->only('title'),
+            [ 'owner_id' => auth()->id() ]
+        ));
+
+    auth()->user()->notify(
+        new NewProductCreated()
+    );
 
     return response()->json('', 201);
 })->name('product.store');
