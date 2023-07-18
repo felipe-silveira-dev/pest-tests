@@ -94,3 +94,19 @@ Route::post('/upload-avatar', function () {
     );
 
 })->name('upload-avatar');
+
+
+Route::post('/import-product-with-file', function (\Illuminate\Http\Request $request) {
+    $file = $request->file('file');
+
+    $openToRead = fopen($file->getRealPath(), 'r');
+
+    while (($data = fgetcsv($openToRead, 1000, ',')) !== false) {
+        Product::query()->create([
+            'title' => $data[0],
+            'code' => $data[1],
+            'owner_id' => $request->user()->id
+        ]);
+    }
+
+})->name('product.import.with-file');
