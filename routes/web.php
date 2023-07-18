@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\CreateProductAction;
 use App\Jobs\ImportProduct;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
@@ -43,11 +44,11 @@ Route::post('/products', function () {
         'title' => ['required', 'max:255'],
     ]);
 
-    Product::query()
-        ->create(array_merge(
-            request()->only('title'),
-            [ 'owner_id' => auth()->id() ]
-        ));
+    $action = app(CreateProductAction::class);
+    $action->handle(
+        request()->only('title'),
+        auth()->id()
+    );
 
     auth()->user()->notify(
         new NewProductCreated()
