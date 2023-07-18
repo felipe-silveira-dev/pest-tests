@@ -84,3 +84,13 @@ Route::get('/secure-route', function () {
     return true;
 })->middleware(SecureRouteMiddleware::class)
     ->name('secure-route');
+
+Route::post('/upload-avatar', function () {
+    $file = request()->file('file');
+
+    $file->store(
+        path: '/',
+        options: ['disk' => 'avatar']
+    );
+
+})->name('upload-avatar');
