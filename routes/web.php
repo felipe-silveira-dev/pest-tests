@@ -1,11 +1,11 @@
 <?php
 
 use App\Actions\CreateProductAction;
+use App\Http\Middleware\SecureRouteMiddleware;
 use App\Jobs\ImportProduct;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
 use App\Models\User;
-use App\Notifications\NewProductCreated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,3 +79,8 @@ Route::post('/products/import', function () {
 Route::post('/sending-email/{user}', function (User $user) {
     Mail::to($user)->send(new WelcomeEmail($user));
 })->name('sending-email');
+
+Route::get('/secure-route', function () {
+    return true;
+})->middleware(SecureRouteMiddleware::class)
+    ->name('secure-route');
