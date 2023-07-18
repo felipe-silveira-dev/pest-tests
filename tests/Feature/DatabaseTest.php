@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Product;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
@@ -12,6 +14,9 @@ use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertTrue;
 
 it('should be able o create a product', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
     postJson(
         route('product.store'),
         ['title' => 'Titulo qualquer']
@@ -62,6 +67,7 @@ it('should be able to delete a product', function () {
 
     assertDatabaseCount('products', 0);
 });
+
 it('should be able to soft-delete a product', function () {
     $product = Product::factory()->create();
 
