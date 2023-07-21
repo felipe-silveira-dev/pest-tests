@@ -1,6 +1,9 @@
 <?php
 
+use App\Jobs\ImportProductsJob;
+use App\Mail\WelcomeEmail;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +64,13 @@ Route::delete('/products/{product}/soft-delete', function (Product $product) {
     $product->delete();
 })->name('product.soft-delete');
 
-Route::post('/sending-email/{user}', function (\App\Models\User $user) {
-    Mail::to($user)->send(new \App\Mail\WelcomeEmail($user));
+
+Route::post('/import-products', function() {
+    $data = request()->get('data');
+
+    ImportProductsJob::dispatch($data);
+})->name('product.import');
+
+Route::post('/sending-email/{user}', function (User $user) {
+    Mail::to($user)->send(new WelcomeEmail($user));
 })->name('sending-email');
