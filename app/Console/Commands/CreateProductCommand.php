@@ -38,6 +38,8 @@ class CreateProductCommand extends Command
             );
 
            $user = User::whereName($userName)->firstOrFail()->id;
+        } else {
+            $user = User::findOrFail($user);
         }
 
         if (!$title) {
