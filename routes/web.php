@@ -45,7 +45,14 @@ Route::post('/products', function () {
     ]);
 
     Product::query()
-        ->create(request()->only('title'));
+        ->create([
+            'title' => request()->get('title'),
+            'owner_id' => auth()->id()
+        ]);
+
+    auth()->user()->notify(
+        new \App\Notifications\NewProductionNotification()
+    );
 
     return response()->json('', 201);
 })->name('product.store');
@@ -65,7 +72,7 @@ Route::delete('/products/{product}/soft-delete', function (Product $product) {
 })->name('product.soft-delete');
 
 
-Route::post('/import-products', function() {
+Route::post('/import-products', function () {
     $data = request()->get('data');
 
     ImportProductsJob::dispatch($data, auth()->id());
