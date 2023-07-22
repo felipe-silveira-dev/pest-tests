@@ -27,7 +27,7 @@ class CreateProductCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(CreateProductAction $action): void
     {
         $title = $this->argument('title');
         $user = $this->argument('user');
@@ -46,7 +46,7 @@ class CreateProductCommand extends Command
             'user' => ['required', Rule::exists('users', 'id')]
         ])->validate();
 
-        app(CreateProductAction::class)
+        $action
             ->handle(
                 $title, User::findOrFail($user)
             );

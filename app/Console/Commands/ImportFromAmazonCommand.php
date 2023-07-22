@@ -25,11 +25,10 @@ class ImportFromAmazonCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(CreateProductAction $action)
     {
         $data = \Http::get('https://api.amazon.com/products')->json();
 
-        $action = app(CreateProductAction::class);
         foreach ($data as $item) {
             $action->handle($item['title'], User::first());
         }
