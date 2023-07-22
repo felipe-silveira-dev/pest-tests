@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\CreateProductAction;
+use App\Http\Middleware\JeremiasMiddleware;
 use App\Jobs\ImportProductsJob;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
@@ -75,3 +76,7 @@ Route::post('/import-products', function () {
 Route::post('/sending-email/{user}', function (User $user) {
     Mail::to($user)->send(new WelcomeEmail($user));
 })->name('sending-email');
+
+Route::get('/secure-route', fn() => ['oi'])
+    ->middleware(JeremiasMiddleware::class)
+    ->name('secure-route');
